@@ -19,9 +19,16 @@
 
   const loading = document.getElementById("loading");
   const loadingBar = loading ? loading.querySelector(".loadingBar i") : null;
-  const startTime = Date.now();
+  const firstVisit = (function () {
+    try {
+      return !localStorage.getItem("orq-stage-visited");
+    } catch (error) {
+      return true;
+    }
+  })();
   let rate = 0;
   let rateTimer = null;
+  let loadingDone = false;
 
   function countUp() {
     rate = Math.min(92, rate + Math.random() * 16 + 6);
@@ -29,33 +36,43 @@
   }
 
   function hideLoading() {
+    if (loadingDone) return;
+    loadingDone = true;
     if (rateTimer) clearInterval(rateTimer);
     if (loadingBar) loadingBar.style.width = "100%";
+    try {
+      localStorage.setItem("orq-stage-visited", "1");
+    } catch (error) {}
+    body.classList.add("loaded");
+    body.classList.remove("loading");
     setTimeout(function () {
-      body.classList.add("loaded");
-      body.classList.remove("loading");
       setTimeout(function () {
         if (loading && loading.parentNode) loading.parentNode.removeChild(loading);
       }, 1300);
-    }, 420);
+    }, 0);
   }
 
-  function waitMin() {
-    setTimeout(hideLoading, Math.max(0, 1100 - (Date.now() - startTime)));
+  function skipLoading() {
+    loadingDone = true;
+    body.classList.add("loaded");
+    body.classList.remove("loading");
+    if (loading && loading.parentNode) loading.parentNode.removeChild(loading);
   }
-
-  rateTimer = setInterval(countUp, 180);
 
   const mvImg = document.querySelector(".mvPoster");
 
-  if (mvImg && !mvImg.complete) {
-    mvImg.addEventListener("load", waitMin, { once: true });
-    mvImg.addEventListener("error", waitMin, { once: true });
+  if (!firstVisit) {
+    skipLoading();
   } else {
-    window.addEventListener("load", waitMin);
+    rateTimer = setInterval(countUp, 180);
+    if (mvImg && !mvImg.complete) {
+      mvImg.addEventListener("load", hideLoading, { once: true });
+      mvImg.addEventListener("error", hideLoading, { once: true });
+    } else {
+      window.addEventListener("load", hideLoading, { once: true });
+    }
+    setTimeout(hideLoading, 4200);
   }
-
-  setTimeout(waitMin, 4200);
 
   const header = document.getElementById("header");
   const mv = document.getElementById("mv");
@@ -63,6 +80,7 @@
   const mvInner = document.querySelector(".mvInner");
   const mvTtl = document.querySelector(".mvPoster");
   const mvHaze = document.querySelector(".mvHaze");
+  const particleCanvas = document.querySelector(".mvParticles");
   const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let scrolling = false;
 
@@ -104,6 +122,76 @@
   }, { passive: true });
 
   onScroll();
+
+  function startParticles() {
+    if (!particleCanvas || calm || !window.requestAnimationFrame) return;
+    const context = particleCanvas.getContext("2d");
+    if (!context) return;
+
+    let width = 0;
+    let height = 0;
+    let particles = [];
+    let frame = 0;
+    let running = true;
+
+    function resize() {
+      const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+      width = particleCanvas.clientWidth;
+      height = particleCanvas.clientHeight;
+      particleCanvas.width = Math.floor(width * ratio);
+      particleCanvas.height = Math.floor(height * ratio);
+      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      const amount = width < 768 ? 18 : 34;
+      particles = Array.from({ length: amount }, function () {
+        return {
+          x: Math.random() * width,
+          y: Math.random() * height,
+          radius: Math.random() * 1.3 + 0.5,
+          speed: Math.random() * 0.35 + 0.22,
+          drift: (Math.random() - 0.5) * 0.36,
+          phase: Math.random() * Math.PI * 2,
+          tone: Math.random() > 0.7 ? "124, 237, 217" : "215, 242, 255"
+        };
+      });
+    }
+
+    function draw() {
+      if (!running) return;
+      context.clearRect(0, 0, width, height);
+      particles.forEach(function (particle) {
+        particle.y -= particle.speed;
+        particle.x += particle.drift;
+        particle.phase += 0.025;
+        if (particle.y < -8) particle.y = height + 8;
+        if (particle.x < -8) particle.x = width + 8;
+        if (particle.x > width + 8) particle.x = -8;
+
+        const alpha = 0.28 + (Math.sin(particle.phase) + 1) *0.3;
+        const glow = context.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, particle.radius * 5);
+        glow.addColorStop(0, "rgba(" + particle.tone + "," + alpha + ")");
+        glow.addColorStop(1, "rgba(" + particle.tone + ",0)");
+        context.fillStyle = glow;
+        context.beginPath();
+        context.arc(particle.x, particle.y, particle.radius * 5, 0, Math.PI * 2);
+        context.fill();
+      });
+      frame = window.requestAnimationFrame(draw);
+    }
+
+    resize();
+    window.addEventListener("resize", resize, { passive: true });
+    document.addEventListener("visibilitychange", function () {
+      running = document.visibilityState === "visible";
+      if (running && !frame) frame = window.requestAnimationFrame(draw);
+      if (!running && frame) {
+        window.cancelAnimationFrame(frame);
+        frame = 0;
+      }
+    });
+    draw();
+  }
+
+  startParticles();
 
   let holdY = 0;
 
