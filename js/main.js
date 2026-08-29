@@ -132,6 +132,7 @@
     let height = 0;
     let particles = [];
     let frame = 0;
+    let lastTime = 0;
     let running = true;
 
     function resize() {
@@ -147,21 +148,25 @@
           x: Math.random() * width,
           y: Math.random() * height,
           radius: Math.random() * 1.3 + 0.5,
-          speed: Math.random() * 0.35 + 0.22,
-          drift: (Math.random() - 0.5) * 0.36,
+          speed: Math.random() * 15 + 9,
+          drift: (Math.random() - 0.5) * 5,
           phase: Math.random() * Math.PI * 2,
+          twinkle: Math.random() * 0.7 + 0.5,
           tone: Math.random() > 0.7 ? "124, 237, 217" : "215, 242, 255"
         };
       });
     }
 
-    function draw() {
+    function draw(timestamp) {
       if (!running) return;
+      if (!lastTime) lastTime = timestamp;
+      const elapsed = Math.min((timestamp - lastTime) / 1000, 0.05);
+      lastTime = timestamp;
       context.clearRect(0, 0, width, height);
       particles.forEach(function (particle) {
-        particle.y -= particle.speed;
-        particle.x += particle.drift;
-        particle.phase += 0.025;
+        particle.y -= particle.speed * elapsed;
+        particle.x += particle.drift * elapsed;
+        particle.phase += particle.twinkle * elapsed;
         if (particle.y < -8) particle.y = height + 8;
         if (particle.x < -8) particle.x = width + 8;
         if (particle.x > width + 8) particle.x = -8;
@@ -188,7 +193,7 @@
         frame = 0;
       }
     });
-    draw();
+    draw(performance.now());
   }
 
   startParticles();

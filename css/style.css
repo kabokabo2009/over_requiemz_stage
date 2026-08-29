@@ -1839,6 +1839,7 @@ body.scrollLock #ticketFix {
     justify-content: center;
     text-align: left;
     gap: clamp(1.3rem, 3.2vh, 2.4rem);
+    max-width: 1080px;
   }
 
   .mvText { max-width: 24rem; padding-bottom: clamp(0.5rem, 3vh, 2.4rem); }
