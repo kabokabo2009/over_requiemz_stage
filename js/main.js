@@ -80,10 +80,8 @@
   const mvInner = document.querySelector(".mvInner");
   const mvTtl = document.querySelector(".mvPoster");
   const mvHaze = document.querySelector(".mvHaze");
-  const particleCanvas = document.querySelector(".mvParticles");
+  const particleLayer = document.querySelector(".mvParticles");
   const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let particleController = null;
-  let particleScrollTimer = null;
   let scrolling = false;
 
   function onScroll() {
@@ -118,11 +116,6 @@
   }
 
   window.addEventListener("scroll", function () {
-    if (particleController) particleController.pause();
-    if (particleScrollTimer) clearTimeout(particleScrollTimer);
-    particleScrollTimer = setTimeout(function () {
-      if (particleController) particleController.resume();
-    }, 140);
     if (scrolling) return;
     scrolling = true;
     requestAnimationFrame(onScroll);
@@ -131,97 +124,31 @@
   onScroll();
 
   function startParticles() {
-    if (!particleCanvas || calm || !window.requestAnimationFrame) return;
-    const context = particleCanvas.getContext("2d");
-    if (!context) return;
+    if (!particleLayer || calm) return;
 
-    let width = 0;
-    let height = 0;
-    let particles = [];
-    let frame = 0;
-    let lastTime = 0;
-    let running = true;
+    const amount = window.innerWidth < 768 ? 18 : 34;
+    const fragment = document.createDocumentFragment();
 
-    function resize() {
-      const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
-      width = particleCanvas.clientWidth;
-      height = particleCanvas.clientHeight;
-      if (!width || !height) return;
-      particleCanvas.width = Math.floor(width * ratio);
-      particleCanvas.height = Math.floor(height * ratio);
-      context.setTransform(ratio, 0, 0, ratio, 0, 0);
-      const amount = width < 768 ? 18 : 34;
-      particles = Array.from({ length: amount }, function () {
-        return {
-          x: Math.random() * width,
-          y: Math.random() * height,
-          radius: Math.random() * 1.3 + 0.5,
-          speed: Math.random() * 15 + 9,
-          drift: (Math.random() - 0.5) * 5,
-          phase: Math.random() * Math.PI * 2,
-          twinkle: Math.random() * 0.7 + 0.5,
-          tone: Math.random() > 0.7 ? "124, 237, 217" : "215, 242, 255"
-        };
-      });
+    for (let i = 0; i < amount; i += 1) {
+      const particle = document.createElement("i");
+      const duration = Math.random() * 20 + 31;
+      const delay = Math.random() * -duration;
+      const radius = Math.random() * 1.3 + 0.35;
+
+      particle.className = Math.random() > 0.7
+        ? "mvParticle isMint"
+        : "mvParticle";
+      particle.style.setProperty("--x", Math.random() * 100 + "%");
+      particle.style.setProperty("--size", radius * 13 + "px");
+      particle.style.setProperty("--duration", duration + "s");
+      particle.style.setProperty("--delay", delay + "s");
+      particle.style.setProperty("--sway", (Math.random() - 0.5) * 12 + "px");
+      particle.style.setProperty("--sway-mid", (Math.random() - 0.5) * 7 + "px");
+      particle.style.setProperty("--twinkle-delay", Math.random() * -3.8 + "s");
+      fragment.appendChild(particle);
     }
 
-    function draw(timestamp) {
-      if (!running) return;
-      if (!lastTime) lastTime = timestamp;
-      const elapsed = Math.min((timestamp - lastTime) / 1000, 0.05);
-      lastTime = timestamp;
-      context.clearRect(0, 0, width, height);
-      particles.forEach(function (particle) {
-        particle.y -= particle.speed * elapsed;
-        particle.x += particle.drift * elapsed;
-        particle.phase += particle.twinkle * elapsed;
-        if (particle.y < -8) particle.y = height + 8;
-        if (particle.x < -8) particle.x = width + 8;
-        if (particle.x > width + 8) particle.x = -8;
-
-        const alpha = 0.28 + (Math.sin(particle.phase) + 1) * 0.22;
-        const glow = context.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, particle.radius * 5);
-        glow.addColorStop(0, "rgba(" + particle.tone + "," + alpha + ")");
-        glow.addColorStop(1, "rgba(" + particle.tone + ",0)");
-        context.fillStyle = glow;
-        context.beginPath();
-        context.arc(particle.x, particle.y, particle.radius * 5, 0, Math.PI * 2);
-        context.fill();
-      });
-      frame = window.requestAnimationFrame(draw);
-    }
-
-    particleController = {
-      pause: function () {
-        running = false;
-        lastTime = 0;
-        if (frame) {
-          window.cancelAnimationFrame(frame);
-          frame = 0;
-        }
-      },
-      resume: function () {
-        if (running) return;
-        running = true;
-        lastTime = 0;
-        frame = window.requestAnimationFrame(draw);
-      }
-    };
-
-    resize();
-    window.addEventListener("resize", resize, { passive: true });
-    document.addEventListener("visibilitychange", function () {
-      running = document.visibilityState === "visible";
-      if (running && !frame) {
-        lastTime = 0;
-        frame = window.requestAnimationFrame(draw);
-      }
-      if (!running && frame) {
-        window.cancelAnimationFrame(frame);
-        frame = 0;
-      }
-    });
-    draw(performance.now());
+    particleLayer.appendChild(fragment);
   }
 
   startParticles();

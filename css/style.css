@@ -1906,3 +1906,45 @@ html { scroll-behavior: auto; }
 .mvBg, .mvPortraitWrap, .mvPoster { transform: none; }
 .mvParticles { display: none; }
 }
+
+/*kv修正*/
+
+.mvParticles {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.mvParticle {
+  position: absolute;
+  top: 105%;
+  left: var(--x);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(215, 242, 255, 0.9) 0%, rgba(215, 242, 255, 0.35) 30%, rgba(215, 242, 255, 0) 72%);
+  opacity: 0;
+  animation: particleRise var(--duration) linear var(--delay) infinite,
+    particleTwinkle 3.8s ease-in-out var(--twinkle-delay) infinite;
+  will-change: transform, opacity, filter;
+}
+
+.mvParticle.isMint { background: radial-gradient(circle, rgba(124, 237, 217, 1) 0%, rgba(124, 237, 217, 0.48) 30%, rgba(124, 237, 217, 0) 72%); }
+
+@keyframes particleRise {
+  0% { transform: translate3d(0, 0, 0); opacity: 0; }
+  10% { transform: translate3d(var(--sway-mid), -11.5vh, 0); opacity: 0.7; }
+  35% { transform: translate3d(var(--sway), -40.25vh, 0); opacity: 0.7; }
+  65% { transform: translate3d(var(--sway-mid), -74.75vh, 0); opacity: 0.7; }
+  90% { transform: translate3d(var(--sway), -103.5vh, 0); opacity: 0.7; }
+  100% { transform: translate3d(0, -115vh, 0); opacity: 0; }
+}
+
+@keyframes particleTwinkle {
+  0%, 100% { filter: brightness(0.8); }
+  50% { filter: brightness(1.8); }
+}
