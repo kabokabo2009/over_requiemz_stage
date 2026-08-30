@@ -82,6 +82,8 @@
   const mvHaze = document.querySelector(".mvHaze");
   const particleCanvas = document.querySelector(".mvParticles");
   const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let particleController = null;
+  let particleScrollTimer = null;
   let scrolling = false;
 
   function onScroll() {
@@ -116,6 +118,11 @@
   }
 
   window.addEventListener("scroll", function () {
+    if (particleController) particleController.pause();
+    if (particleScrollTimer) clearTimeout(particleScrollTimer);
+    particleScrollTimer = setTimeout(function () {
+      if (particleController) particleController.resume();
+    }, 140);
     if (scrolling) return;
     scrolling = true;
     requestAnimationFrame(onScroll);
@@ -139,6 +146,7 @@
       const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
       width = particleCanvas.clientWidth;
       height = particleCanvas.clientHeight;
+      if (!width || !height) return;
       particleCanvas.width = Math.floor(width * ratio);
       particleCanvas.height = Math.floor(height * ratio);
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
@@ -171,7 +179,7 @@
         if (particle.x < -8) particle.x = width + 8;
         if (particle.x > width + 8) particle.x = -8;
 
-        const alpha = 0.28 + (Math.sin(particle.phase) + 1) *0.3;
+        const alpha = 0.28 + (Math.sin(particle.phase) + 1) * 0.22;
         const glow = context.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, particle.radius * 5);
         glow.addColorStop(0, "rgba(" + particle.tone + "," + alpha + ")");
         glow.addColorStop(1, "rgba(" + particle.tone + ",0)");
@@ -183,11 +191,31 @@
       frame = window.requestAnimationFrame(draw);
     }
 
+    particleController = {
+      pause: function () {
+        running = false;
+        lastTime = 0;
+        if (frame) {
+          window.cancelAnimationFrame(frame);
+          frame = 0;
+        }
+      },
+      resume: function () {
+        if (running) return;
+        running = true;
+        lastTime = 0;
+        frame = window.requestAnimationFrame(draw);
+      }
+    };
+
     resize();
     window.addEventListener("resize", resize, { passive: true });
     document.addEventListener("visibilitychange", function () {
       running = document.visibilityState === "visible";
-      if (running && !frame) frame = window.requestAnimationFrame(draw);
+      if (running && !frame) {
+        lastTime = 0;
+        frame = window.requestAnimationFrame(draw);
+      }
       if (!running && frame) {
         window.cancelAnimationFrame(frame);
         frame = 0;
