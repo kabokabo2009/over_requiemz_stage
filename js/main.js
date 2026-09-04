@@ -214,7 +214,7 @@
         item.target.classList.add("on");
         watcher.unobserve(item.target);
       });
-    }, { rootMargin: "0px 0px -12% 0px", threshold: 0.08 });
+    }, { rootMargin: "0px 0px 20% 0px", threshold: 0.01 });
 
     fades.forEach(function (el) { watcher.observe(el); });
   } else {
