@@ -2,16 +2,16 @@
   "use strict";
 
   const castData = {
-    "01": { photo: "images/cast-01.jpg", name: "丸山 龍星", role: "カイゼ・オズマ 役" },
-    "02": { photo: "images/cast-02.jpg", name: "平賀 勇成", role: "クロード・グレイン 役" },
-    "03": { photo: "images/cast-03.jpg", name: "宮城 紘大", role: "モリィ・ウッドランド 役" },
-    "04": { photo: "images/cast-04.jpg", name: "木村 優良", role: "ノイル・ベスティア 役" },
-    "05": { photo: "images/cast-05.jpg", name: "大隈 勇太", role: "ドロシー 役" },
-    "06": { photo: "images/cast-06.jpg", name: "朝倉 ふゆな", role: "ユヒル 役" },
-    "07": { photo: "images/cast-07.jpg", name: "佐藤 たかみち", role: "アクレイ 役" },
-    "08": { photo: "images/cast-08.jpg", name: "高岡 薫", role: "ネノス・ウラウ 役" },
-    "09": { photo: "images/cast-09.jpg", name: "柳堀 花怜(僕が見たかった青空)", role: "グリンダ・フェリス 役" },
-    "10": { photo: "images/cast-10.jpg", name: "馬場 良馬", role: "オッサー・ウッドランド 役" }
+    "01": { photo: "images/cast-01.webp", name: "丸山 龍星", role: "カイゼ・オズマ 役" },
+    "02": { photo: "images/cast-02.webp", name: "平賀 勇成", role: "クロード・グレイン 役" },
+    "03": { photo: "images/cast-03.webp", name: "宮城 紘大", role: "モリィ・ウッドランド 役" },
+    "04": { photo: "images/cast-04.webp", name: "木村 優良", role: "ノイル・ベスティア 役" },
+    "05": { photo: "images/cast-05.webp", name: "大隈 勇太", role: "ドロシー 役" },
+    "06": { photo: "images/cast-06.webp", name: "朝倉 ふゆな", role: "ユヒル 役" },
+    "07": { photo: "images/cast-07.webp", name: "佐藤 たかみち", role: "アクレイ 役" },
+    "08": { photo: "images/cast-08.webp", name: "高岡 薫", role: "ネノス・ウラウ 役" },
+    "09": { photo: "images/cast-09.webp", name: "柳堀 花怜(僕が見たかった青空)", role: "グリンダ・フェリス 役" },
+    "10": { photo: "images/cast-10.webp", name: "馬場 良馬", role: "オッサー・ウッドランド 役" }
   };
 
   const castKeys = Object.keys(castData);
