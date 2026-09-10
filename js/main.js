@@ -10,7 +10,7 @@
     "06": { photo: "images/cast-06.jpg", name: "朝倉 ふゆな", role: "ユヒル 役" },
     "07": { photo: "images/cast-07.jpg", name: "佐藤 たかみち", role: "アクレイ 役" },
     "08": { photo: "images/cast-08.jpg", name: "高岡 薫", role: "ネノス・ウラウ 役" },
-    "09": { photo: "images/cast-09.jpg", name: "柳堀 花怜", role: "グリンダ・フェリス 役" },
+    "09": { photo: "images/cast-09.jpg", name: "柳堀 花怜(僕が見たかった青空)", role: "グリンダ・フェリス 役" },
     "10": { photo: "images/cast-10.jpg", name: "馬場 良馬", role: "オッサー・ウッドランド 役" }
   };
 

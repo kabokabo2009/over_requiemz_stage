@@ -786,6 +786,10 @@ body.scrollLock #ticketFix {
   white-space: nowrap;
 }
 
+.castName-sub{
+  font-size: 0.6rem;
+}
+
 .castRole {
   display: block;
   font-size: 0.72rem;
@@ -816,14 +820,48 @@ body.scrollLock #ticketFix {
   font-size: 0.9rem;
 }
 
+.schVenue {
+  margin-bottom: 1.6rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(131, 151, 174, 0.18);
+}
 
+.schVenueName {
+  font-size: 1.2rem;
+  letter-spacing: 0.22em;
+  margin-bottom: 0.55rem;
+}
+
+.schVenueAddr {
+  font-size: 1.0rem;
+  letter-spacing: 0.08em;
+  color: #5d7288;
+}
+
+.schMap {
+  border: 1px solid rgba(131, 151, 174, 0.2);
+  background: rgba(255, 255, 255, 0.4);
+  overflow: hidden;
+}
+
+.schMap iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  filter: grayscale(0.3) saturate(0.85) contrast(0.96);
+}
+
+@media screen and (min-width: 768px) {
+  .schMap iframe { aspect-ratio: 21 / 8; }
+}
 
 .schHall {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   gap: 0.4rem 1.4rem;
-  font-size: 1.02rem;
+  font-size: 1.0rem;
   letter-spacing: 0.18em;
   margin-bottom: 1.8rem;
 }
@@ -1188,6 +1226,21 @@ body.scrollLock #ticketFix {
 }
 
 
+
+.faqComing {
+  display: grid;
+  place-items: center;
+  padding: 3.6rem 1.5rem;
+  border: 1px solid rgba(131, 151, 174, 0.2);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.faqComingTxt {
+  font-size: 0.86rem;
+  letter-spacing: 0.36em;
+  text-indent: 0.36em;
+  color: #5d7288;
+}
 
 .faqList {
   border-top: 1px solid rgba(131, 151, 174, 0.2);
@@ -1877,6 +1930,7 @@ body.scrollLock #ticketFix {
     opacity: 0.6;
     margin: 1.9rem auto 0;
   }
+  .ttlLong { display: inline-block; transform: rotate(94deg); }
 
 .castList { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
