@@ -1886,6 +1886,17 @@ body.scrollLock #ticketFix {
   .mvDate .day { font-size: clamp(1.3rem, 6.3vw, 1.75rem); }
   .mvHall { font-size: 0.8rem; }
 
+  .modalBox { max-height: 92svh; gap: 1rem; }
+  .modalPhoto { height: 38svh; margin: 0 auto; }
+  .modalPhoto img {
+    width: auto;
+    height: 100%;
+    margin: 0 auto;
+  }
+  .modalName { margin-top: 0; }
+  .modalRole { margin: 0.5rem 0 0; }
+  .modalPager { padding-top: 0.8rem; }
+
 }
 
 @media screen and (min-width: 768px) {
