@@ -1887,7 +1887,7 @@ body.scrollLock #ticketFix {
   .mvHall { font-size: 0.8rem; }
 
   .modalBox { max-height: 92svh; gap: 1rem; }
-  .modalPhoto { height: 38svh; margin: 0 auto; }
+  .modalPhoto { height: 30svh; margin: 0 auto; }
   .modalPhoto img {
     width: auto;
     height: 100%;
