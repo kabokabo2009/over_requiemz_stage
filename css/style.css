@@ -787,7 +787,7 @@ body.scrollLock #ticketFix {
 }
 
 .castBtn[data-cast="09"] .castPhoto img {
-  transform: scale(1.5);
+  transform: scale(1.7);
   transform-origin: 49% 29%;
 }
 
