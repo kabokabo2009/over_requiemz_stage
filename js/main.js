@@ -6,7 +6,7 @@
     "02": { photo: "images/cast-02.webp", name: "平賀 勇成", role: "クロード・グレイン 役" },
     "03": { photo: "images/cast-03.webp", name: "宮城 紘大", role: "モリィ・ウッドランド 役" },
     "04": { photo: "images/cast-04.webp", name: "木村 優良", role: "ノイル・ベスティア 役" },
-    "05": { photo: "images/cast-05.webp", name: "大隈 勇太", role: "ドロシー 役" },
+    "05": { photo: "images/cast-05.webp", name: "大隅 勇太", role: "ドロシー 役" },
     "06": { photo: "images/cast-06.webp", name: "朝倉 ふゆな", role: "ユヒル 役" },
     "07": { photo: "images/cast-07.webp", name: "佐藤 たかみち", role: "アクレイ 役" },
     "08": { photo: "images/cast-08.webp", name: "高岡 薫", role: "ネノス・ウラウ 役" },

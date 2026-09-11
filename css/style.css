@@ -757,6 +757,40 @@ body.scrollLock #ticketFix {
   opacity: 1;
 }
 
+.castBtn[data-cast="01"] .castPhoto img {
+  transform: scale(2.3);
+  transform-origin: 47% 40%;
+}
+
+.castBtn[data-cast="02"] .castPhoto img {
+  transform: scale(1.6);
+  transform-origin: 63% 2%;
+}
+
+.castBtn[data-cast="03"] .castPhoto img {
+  transform: scale(1.3);
+  transform-origin: 40% 10%;
+}
+
+.castBtn[data-cast="04"] .castPhoto img {
+  transform: scale(1);
+}
+
+.castBtn[data-cast="05"] .castPhoto img {
+  transform: scale(1.3);
+  transform-origin: 30% 0%;
+}
+
+.castBtn[data-cast="07"] .castPhoto img {
+  transform: scale(1.2);
+  transform-origin: 40% 0%;
+}
+
+.castBtn[data-cast="09"] .castPhoto img {
+  transform: scale(1.5);
+  transform-origin: 49% 29%;
+}
+
 .castPhoto::after {
   content: "";
   position: absolute;
