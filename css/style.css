@@ -1994,8 +1994,6 @@ body.scrollLock #ticketFix {
 
 .ticketPlate { border-width: 46px; border-image-width: 46px; }
 
-.ticketWrap { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
 .footBody { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: start; }
 
 .modalBox { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr); align-items: center; }
